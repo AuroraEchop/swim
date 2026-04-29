@@ -1,8 +1,8 @@
-CREATE DATABASE IF NOT EXISTS swim
+CREATE DATABASE IF NOT EXISTS shipping_management
   DEFAULT CHARACTER SET utf8mb4
   COLLATE utf8mb4_general_ci;
 
-USE swim;
+USE shipping_management;
 
 CREATE TABLE IF NOT EXISTS sys_role (
   id BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '角色ID',
