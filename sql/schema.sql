@@ -4,6 +4,8 @@ CREATE DATABASE IF NOT EXISTS shipping_management
 
 USE shipping_management;
 
+SET NAMES utf8mb4;
+
 CREATE TABLE IF NOT EXISTS sys_role (
   id BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '角色ID',
   role_name VARCHAR(30) NOT NULL COMMENT '角色名称',
@@ -167,3 +169,58 @@ INSERT IGNORE INTO crew_member (crew_no, name, gender, phone, certificate_no, po
 VALUES
   ('CREW-001', '张三', '男', '13800000002', 'CERT-001', '船长', 1, 'ON_DUTY', '经验丰富'),
   ('CREW-002', '李四', '男', '13800000003', 'CERT-002', '大副', 1, 'ON_DUTY', '负责航行协助');
+
+UPDATE sys_role
+SET role_name = '管理员', description = '拥有系统主要管理权限', built_in = 1
+WHERE role_code = 'ADMIN';
+
+UPDATE sys_role
+SET role_name = '业务用户', description = '负责船舶、船员、运输和结算等业务数据维护', built_in = 1
+WHERE role_code = 'BUSINESS';
+
+UPDATE sys_role
+SET role_name = '查看用户', description = '仅允许查看业务数据', built_in = 1
+WHERE role_code = 'VIEWER';
+
+UPDATE sys_user
+SET password = '123456', real_name = '系统管理员', phone = '13800000000',
+    email = 'admin@example.com', role_id = 1, status = 'ENABLED'
+WHERE username = 'admin';
+
+UPDATE sys_user
+SET password = '123456', real_name = '业务员一号', phone = '13800000001',
+    email = 'business01@example.com', role_id = 2, status = 'ENABLED'
+WHERE username = 'business01';
+
+UPDATE dictionary_item SET label = '集装箱船' WHERE dict_type = 'SHIP_TYPE' AND value = 'CONTAINER_SHIP';
+UPDATE dictionary_item SET label = '散货船' WHERE dict_type = 'SHIP_TYPE' AND value = 'BULK_CARRIER';
+UPDATE dictionary_item SET label = '油轮' WHERE dict_type = 'SHIP_TYPE' AND value = 'OIL_TANKER';
+UPDATE dictionary_item SET label = '集装箱货物' WHERE dict_type = 'CARGO_TYPE' AND value = 'CONTAINER_CARGO';
+UPDATE dictionary_item SET label = '散装货物' WHERE dict_type = 'CARGO_TYPE' AND value = 'BULK_CARGO';
+UPDATE dictionary_item SET label = '液体货物' WHERE dict_type = 'CARGO_TYPE' AND value = 'LIQUID_CARGO';
+UPDATE dictionary_item SET label = '上海港' WHERE dict_type = 'PORT' AND value = 'SHANGHAI_PORT';
+UPDATE dictionary_item SET label = '深圳港' WHERE dict_type = 'PORT' AND value = 'SHENZHEN_PORT';
+UPDATE dictionary_item SET label = '宁波舟山港' WHERE dict_type = 'PORT' AND value = 'NINGBO_ZHOUSHAN_PORT';
+UPDATE dictionary_item SET label = '船长' WHERE dict_type = 'CREW_POSITION' AND value = 'CAPTAIN';
+UPDATE dictionary_item SET label = '大副' WHERE dict_type = 'CREW_POSITION' AND value = 'CHIEF_OFFICER';
+UPDATE dictionary_item SET label = '轮机长' WHERE dict_type = 'CREW_POSITION' AND value = 'CHIEF_ENGINEER';
+
+UPDATE ship
+SET ship_name = '远航一号', ship_type = '集装箱船', load_capacity = 50000.00,
+    home_port = '上海港', status = 'IDLE', remark = '主力运输船舶'
+WHERE ship_no = 'SHIP-001';
+
+UPDATE ship
+SET ship_name = '海运二号', ship_type = '散货船', load_capacity = 30000.00,
+    home_port = '深圳港', status = 'IDLE', remark = '常规散货运输'
+WHERE ship_no = 'SHIP-002';
+
+UPDATE crew_member
+SET name = '张三', gender = '男', phone = '13800000002', certificate_no = 'CERT-001',
+    position = '船长', ship_id = 1, status = 'ON_DUTY', remark = '经验丰富'
+WHERE crew_no = 'CREW-001';
+
+UPDATE crew_member
+SET name = '李四', gender = '男', phone = '13800000003', certificate_no = 'CERT-002',
+    position = '大副', ship_id = 1, status = 'ON_DUTY', remark = '负责航行协助'
+WHERE crew_no = 'CREW-002';

@@ -1,0 +1,21 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+spring:
+  application:
+    name: shipping-management-backend
+  datasource:
+    url: jdbc:mysql://localhost:3306/shipping_management?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: gavin
+    password: 456123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
