@@ -45,6 +45,12 @@ export const transportStatusOptions = [
   { label: '已取消', value: 'CANCELLED' },
 ] as const
 
+export const settlementStatusOptions = [
+  { label: '未结算', value: 'UNSETTLED' },
+  { label: '部分结算', value: 'PARTIAL' },
+  { label: '已结算', value: 'SETTLED' },
+] as const
+
 export function getStatusMeta(status?: string): StatusMeta {
   if (!status) {
     return { label: '-', type: 'info' }
