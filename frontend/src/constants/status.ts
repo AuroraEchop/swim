@@ -38,6 +38,13 @@ export const crewStatusOptions = [
   { label: '离职', value: 'RESIGNED' },
 ] as const
 
+export const transportStatusOptions = [
+  { label: '待出发', value: 'PENDING' },
+  { label: '运输中', value: 'IN_TRANSIT' },
+  { label: '已到达', value: 'ARRIVED' },
+  { label: '已取消', value: 'CANCELLED' },
+] as const
+
 export function getStatusMeta(status?: string): StatusMeta {
   if (!status) {
     return { label: '-', type: 'info' }
