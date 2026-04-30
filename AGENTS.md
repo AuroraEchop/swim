@@ -89,11 +89,10 @@ Completed backend stages include core APIs, dashboard, dictionary, users/roles, 
 
 ## Next Recommended Work
 
-Continue frontend implementation from `前端页面设计文档.md` with Vue 3:
+Main backend and frontend pages are implemented and smoke-tested through real APIs. Next work should focus on polish rather than new module scaffolding:
 
-1. Finish dictionaries and shared select data loading.
-2. Implement ships and crew pages with shared table/form patterns.
-3. Implement transport orders and settlements.
-4. Implement users and roles.
+1. Manual browser walkthrough for presentation flow.
+2. Responsive and empty-state polish where needed.
+3. Final packaging or deployment notes if the course submission requires them.
 
-The current frontend already includes Vite + Vue 3 + TypeScript, Pinia, Vue Router, Axios, Element Plus, login, route guard, backend proxy, dashboard shell, dictionary select, ship select, transport order select, role select, status tag, ships CRUD page, crew members CRUD page, transport orders CRUD/status page, settlements CRUD/payment page, dictionaries CRUD page, users CRUD page, and roles CRUD page. Use `DESIGN.md` as the visual source of truth. `前端页面设计文档.md` defines pages, routes, and interactions; `DESIGN.md` defines colors, typography, layout, component states, and frontend style constraints.
+The current frontend includes Vite + Vue 3 + TypeScript, Pinia, Vue Router, Axios, Element Plus, login, route guard, backend proxy, dashboard shell, password change dialog, dictionary select, ship select, transport order select, role select, status tag, ships CRUD page, crew members CRUD page, transport orders CRUD/status page, settlements CRUD/payment page, dictionaries CRUD page, users CRUD page, and roles CRUD page. Use `DESIGN.md` as the visual source of truth. `前端页面设计文档.md` defines pages, routes, and interactions; `DESIGN.md` defines colors, typography, layout, component states, and frontend style constraints.
