@@ -19,10 +19,12 @@ D:\project\swim
 ├─ backend/                 Spring Boot 后端
 ├─ frontend/                Vue 3 前端
 ├─ sql/schema.sql           数据库建表与演示数据脚本
+├─ sql/shipping_management_full.sql
+│                           当前数据库完整导出文件
 ├─ scripts/database-transfer.ps1
-│                           数据库导出与导入脚本
+│                           数据库导入脚本
 ├─ scripts/run-database-transfer.cmd
-│                           双击运行数据库脚本的启动器
+│                           双击运行数据库导入脚本的启动器
 ├─ DESIGN.md                前端视觉风格规范
 ├─ PRODUCT.md               产品定位与约束
 ├─ 需求文档.md
@@ -75,20 +77,27 @@ pnpm dev
 http://localhost:5173
 ```
 
-## 数据库导出与导入
+## 数据库导入
 
-需要把当前电脑的数据迁移到另一台电脑时，使用：
+当前数据库已导出到：
+
+```text
+sql/shipping_management_full.sql
+```
+
+需要在另一台电脑导入数据时，推荐双击：
+
+```text
+scripts/run-database-transfer.cmd
+```
+
+也可以在命令行运行：
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\database-transfer.ps1
 ```
 
-Windows 下如果希望双击运行，推荐双击 `scripts/run-database-transfer.cmd`，它会自动调用同目录下的 `database-transfer.ps1`。
-
-脚本提供两个操作：
-
-- `1` 导出数据库：默认导出 `shipping_management`，输出到 `sql/exports/`。
-- `2` 导入 SQL：输入 MySQL 用户名和密码后，脚本会检查目标库是否已存在；如果存在，可以选择删除原库并重建，或者输入一个新的数据库名。
+脚本会直接导入 `sql/shipping_management_full.sql`。运行后输入 MySQL 用户名和密码；如果目标库已存在，可以选择删除原库并重建，或者输入一个新的数据库名。
 
 如果目标电脑已经允许直接运行 `.ps1`，也可以双击 `scripts/database-transfer.ps1`。导入到非默认库名时，需要同步修改后端 `backend/src/main/resources/application.yml` 里的数据库名。
 

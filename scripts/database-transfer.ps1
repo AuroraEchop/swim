@@ -3,7 +3,7 @@ $ErrorActionPreference = 'Stop'
 
 $DefaultDatabase = 'shipping_management'
 $ProjectRoot = Split-Path -Parent $PSScriptRoot
-$ExportDir = Join-Path $ProjectRoot 'sql\exports'
+$DefaultSqlFile = Join-Path $ProjectRoot 'sql\shipping_management_full.sql'
 
 function Pause-And-Exit {
   param([int] $Code = 0)
@@ -142,121 +142,22 @@ function Read-Connection {
   }
 }
 
-function Get-LatestExportPath {
-  if (-not (Test-Path -LiteralPath $ExportDir)) {
-    return (Join-Path $ProjectRoot 'sql\schema.sql')
-  }
-
-  $latest = Get-ChildItem -LiteralPath $ExportDir -Filter '*.sql' -File |
-    Sort-Object LastWriteTime -Descending |
-    Select-Object -First 1
-
-  if ($latest) {
-    return $latest.FullName
-  }
-
-  return (Join-Path $ProjectRoot 'sql\schema.sql')
-}
-
-function Get-SqlForImport {
-  param([string] $SqlFile)
-
-  $lines = Get-Content -LiteralPath $SqlFile -Encoding UTF8
-  $filtered = New-Object System.Collections.Generic.List[string]
-  $skippingCreateDatabase = $false
-
-  foreach ($line in $lines) {
-    $trimmed = $line.Trim()
-
-    if ($skippingCreateDatabase) {
-      if ($trimmed.Contains(';')) {
-        $skippingCreateDatabase = $false
-      }
-      continue
-    }
-
-    if ($trimmed -match '^(?i)CREATE\s+DATABASE\b') {
-      if (-not $trimmed.Contains(';')) {
-        $skippingCreateDatabase = $true
-      }
-      continue
-    }
-
-    if ($trimmed -match '^(?i)USE\s+`?[A-Za-z0-9_]+`?\s*;') {
-      continue
-    }
-
-    $filtered.Add($line)
-  }
-
-  return ($filtered -join [Environment]::NewLine)
-}
-
-function Export-Database {
-  param(
-    [string] $MysqlPath,
-    [string] $MysqldumpPath
-  )
-
-  Write-Host ''
-  Write-Host 'Export database' -ForegroundColor Cyan
-  $connection = Read-Connection
-  $env:MYSQL_PWD = $connection.Password
-
-  try {
-    $mysqlArgs = Get-MysqlArgs -HostName $connection.HostName -Port $connection.Port -User $connection.User
-    $databaseName = Read-WithDefault 'Source database name' $DefaultDatabase
-    Assert-DatabaseName $databaseName
-
-    if (-not (Test-DatabaseExists -MysqlPath $MysqlPath -MysqlArgs $mysqlArgs -DatabaseName $databaseName)) {
-      throw "Database '$databaseName' does not exist."
-    }
-
-    New-Item -ItemType Directory -Force -Path $ExportDir | Out-Null
-    $timestamp = Get-Date -Format 'yyyyMMdd_HHmmss'
-    $outputFile = Join-Path $ExportDir "$databaseName-$timestamp.sql"
-
-    $dumpArgs = @(
-      "-h$($connection.HostName)",
-      "-P$($connection.Port)",
-      "-u$($connection.User)",
-      '--default-character-set=utf8mb4',
-      '--single-transaction',
-      '--skip-lock-tables',
-      '--set-gtid-purged=OFF',
-      $databaseName,
-      "--result-file=$outputFile"
-    )
-
-    & $MysqldumpPath @dumpArgs
-    if ($LASTEXITCODE -ne 0) {
-      throw 'mysqldump failed.'
-    }
-
-    Write-Host ''
-    Write-Host "Exported to: $outputFile" -ForegroundColor Green
-  } finally {
-    Remove-Item Env:MYSQL_PWD -ErrorAction SilentlyContinue
-  }
-}
-
 function Import-Database {
   param([string] $MysqlPath)
 
+  if (-not (Test-Path -LiteralPath $DefaultSqlFile)) {
+    throw "SQL file does not exist: $DefaultSqlFile"
+  }
+
+  Write-Host 'Shipping Management Database Import' -ForegroundColor Cyan
+  Write-Host "SQL file: $DefaultSqlFile"
   Write-Host ''
-  Write-Host 'Import database' -ForegroundColor Cyan
+
   $connection = Read-Connection
   $env:MYSQL_PWD = $connection.Password
 
   try {
     $mysqlArgs = Get-MysqlArgs -HostName $connection.HostName -Port $connection.Port -User $connection.User
-    $defaultSqlFile = Get-LatestExportPath
-    $sqlFile = Read-WithDefault 'SQL file path' $defaultSqlFile
-
-    if (-not (Test-Path -LiteralPath $sqlFile)) {
-      throw "SQL file does not exist: $sqlFile"
-    }
-
     $databaseName = Read-WithDefault 'Target database name' $DefaultDatabase
     Assert-DatabaseName $databaseName
 
@@ -293,9 +194,8 @@ function Import-Database {
     Invoke-MysqlQuery -MysqlPath $MysqlPath -MysqlArgs $mysqlArgs -Sql "CREATE DATABASE IF NOT EXISTS $quotedTarget DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"
 
     Write-Host ''
-    Write-Host "Importing '$sqlFile' into '$databaseName'..."
-    $sqlText = Get-SqlForImport -SqlFile $sqlFile
-    $sqlText | & $MysqlPath @mysqlArgs $databaseName
+    Write-Host "Importing into '$databaseName'..."
+    Get-Content -Raw -Encoding UTF8 -LiteralPath $DefaultSqlFile | & $MysqlPath @mysqlArgs $databaseName
 
     if ($LASTEXITCODE -ne 0) {
       throw 'mysql import failed.'
@@ -313,23 +213,7 @@ function Import-Database {
 
 try {
   $mysqlPath = Find-Tool 'mysql'
-  $mysqldumpPath = Find-Tool 'mysqldump'
-
-  Write-Host 'Shipping Management Database Transfer' -ForegroundColor Cyan
-  Write-Host "Project root: $ProjectRoot"
-  Write-Host ''
-  Write-Host '[1] Export database to SQL'
-  Write-Host '[2] Import SQL to database'
-  Write-Host '[Q] Quit'
-  $action = (Read-Host 'Choose 1/2/Q').Trim().ToUpperInvariant()
-
-  switch ($action) {
-    '1' { Export-Database -MysqlPath $mysqlPath -MysqldumpPath $mysqldumpPath }
-    '2' { Import-Database -MysqlPath $mysqlPath }
-    'Q' { Write-Host 'Quit.' }
-    default { Write-Host 'Invalid choice.' -ForegroundColor Yellow }
-  }
-
+  Import-Database -MysqlPath $mysqlPath
   Pause-And-Exit 0
 } catch {
   Write-Host ''
