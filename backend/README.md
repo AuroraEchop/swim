@@ -18,19 +18,42 @@ username: gavin
 password: 456123
 ```
 
-The course design intentionally stores user passwords as plain text. Login compares the submitted password with the database value directly.
+Initialize the database from the project root:
+
+```powershell
+Get-Content -Raw -LiteralPath 'D:\project\swim\sql\schema.sql' | mysql -ugavin -p456123
+```
+
+## Course Design Authentication
+
+This project intentionally stores user passwords as plaintext. Login compares the submitted password with the database value directly, and password changes write the new plaintext password back to `sys_user.password`.
+
+This is a course design simplification and should not be treated as a defect inside this project scope.
+
+## Implemented APIs
+
+- `POST /api/auth/login`
+- `GET /api/auth/me`
+- `PUT /api/auth/password`
+- `POST /api/auth/logout`
+- `/api/ships`
+- `/api/crew-members`
+- `/api/transport-orders`
+- `/api/settlements`
+- `/api/dashboard/summary`
+- `/api/dashboard/recent-transport-orders`
+- `/api/dictionaries`
+- `/api/users`
+- `/api/roles`
+
+See `D:\project\swim\API接口文档.md` for request and response details.
 
 ## Tests
 
-The current tests are lightweight unit tests for the core rules:
-
-- Plain text username/password login
-- Settlement amount and status calculation
-- Transport order creation validation
-- Transport status transitions
-
-Run after Maven is available:
+Run from `backend/`:
 
 ```powershell
-mvn test
+& 'C:\Users\ganmaojun\scoop\apps\maven\current\bin\mvn.cmd' test
 ```
+
+As of 2026-04-30, the backend has 123 passing tests.

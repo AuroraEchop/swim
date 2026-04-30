@@ -111,6 +111,27 @@ PageResult<T>
 | realName | String | 真实姓名 |
 | roleCode | String | 角色编码 |
 
+### 3.4 CurrentUserResponse
+
+用于 `/auth/me` 返回当前登录用户。当前实现从 `demo-token-{username}-{id}` 中解析用户名并查询用户信息。
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| id | Long | 用户 ID |
+| username | String | 用户名 |
+| realName | String | 真实姓名 |
+| roleCode | String | 角色编码 |
+| permissions | List<String> | 根据角色编码生成的固定权限标识列表 |
+
+### 3.5 UpdatePasswordRequest
+
+用于当前用户修改密码。
+
+| 字段 | 类型 | 必填 | 校验 | 说明 |
+| --- | --- | --- | --- | --- |
+| oldPassword | String | 是 | 6-30 位 | 旧明文密码 |
+| newPassword | String | 是 | 6-30 位 | 新明文密码，后端直接明文更新 |
+
 ## 4. 船舶模块 DTO
 
 ### 4.1 CreateShipRequest
@@ -442,12 +463,9 @@ PageResult<T>
 | roleId | Long | 是 | 已存在角色 ID | 角色 |
 | status | UserStatus | 是 | 枚举值 | 用户状态 |
 
-### 9.3 UpdatePasswordRequest
+### 9.3 密码修改说明
 
-| 字段 | 类型 | 必填 | 校验 | 说明 |
-| --- | --- | --- | --- | --- |
-| oldPassword | String | 是 | 6-30 位 | 旧明文密码 |
-| newPassword | String | 是 | 6-30 位 | 新明文密码 |
+普通用户管理接口不直接修改 `password` 字段。当前登录用户修改密码统一使用认证模块中的 `UpdatePasswordRequest`，见本文档 3.5 节。
 
 ### 9.4 UserResponse
 
@@ -480,6 +498,8 @@ PageResult<T>
 | roleCode | String | 角色编码 |
 | description | String | 角色说明 |
 | builtIn | Boolean | 是否内置角色 |
+
+说明：`CreateRoleRequest` 和 `UpdateRoleRequest` 可接收 `permissions` 字段，但当前数据库没有权限明细表，后端不持久化该字段。课程设计演示中可根据 `roleCode` 做基础菜单控制。
 
 ## 10. 首页统计模块 DTO
 
