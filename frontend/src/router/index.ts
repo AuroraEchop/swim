@@ -28,7 +28,7 @@ export const routes: RouteRecordRaw[] = [
       {
         path: 'crew-members',
         name: 'crewMembers',
-        component: () => import('../views/ModulePlaceholder.vue'),
+        component: () => import('../views/CrewMembersView.vue'),
         meta: { title: '船员管理', module: 'crew-members' },
       },
       {

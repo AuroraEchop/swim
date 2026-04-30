@@ -31,6 +31,13 @@ export const shipStatusOptions = [
   { label: '停用', value: 'DISABLED' },
 ] as const
 
+export const crewStatusOptions = [
+  { label: '在岗', value: 'ON_DUTY' },
+  { label: '休假', value: 'ON_LEAVE' },
+  { label: '待分配', value: 'UNASSIGNED' },
+  { label: '离职', value: 'RESIGNED' },
+] as const
+
 export function getStatusMeta(status?: string): StatusMeta {
   if (!status) {
     return { label: '-', type: 'info' }
