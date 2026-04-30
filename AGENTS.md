@@ -5,7 +5,9 @@
 - Workspace: `D:\project\swim`
 - Current project name: 简易航运公司管理系统
 - Backend path: `D:\project\swim\backend`
+- Planned frontend path: `D:\project\swim\frontend`
 - Database script: `D:\project\swim\sql\schema.sql`
+- Frontend design doc: `D:\project\swim\前端页面设计文档.md`
 - Backend base URL: `http://localhost:8080/api`
 - JDK: Java 17
 - Maven path: `C:\Users\ganmaojun\scoop\apps\maven\current\bin\mvn.cmd`
@@ -66,13 +68,13 @@ Get-Content -Raw -LiteralPath 'D:\project\swim\sql\schema.sql' | mysql -ugavin -
 
 The user asked to commit after each stage. Keep commits small and stage-specific.
 
-Recent completed stages include backend core APIs, dashboard, dictionary, users/roles, and auth helper APIs.
+Completed backend stages include core APIs, dashboard, dictionary, users/roles, and auth helper APIs. Frontend waste branches were removed; continue from `front-redesign` based on `11a5888 docs: tidy project handoff documentation`.
 
 ## Next Recommended Work
 
-Start frontend development with Vue 3:
+Start frontend implementation from `前端页面设计文档.md` with Vue 3:
 
 1. Scaffold Vite + Vue 3.
 2. Add Pinia, Vue Router, Axios, Element Plus.
 3. Build login, layout, route guard, and API client.
-4. Implement pages in this order: dashboard, ships, crew, transport orders, settlements, dictionaries, users/roles.
+4. Implement pages in this order: dashboard, dictionaries and shared selects, ships, crew, transport orders, settlements, users/roles.
