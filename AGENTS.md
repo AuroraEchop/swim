@@ -7,6 +7,8 @@
 - Backend path: `D:\project\swim\backend`
 - Frontend path: `D:\project\swim\frontend`
 - Database script: `D:\project\swim\sql\schema.sql`
+- Database transfer script: `D:\project\swim\scripts\database-transfer.ps1`
+- Database transfer double-click launcher: `D:\project\swim\scripts\run-database-transfer.cmd`
 - Frontend design doc: `D:\project\swim\前端页面设计文档.md`
 - Frontend style guide: `D:\project\swim\DESIGN.md`
 - Product context: `D:\project\swim\PRODUCT.md`
@@ -80,6 +82,16 @@ Initialize database:
 ```powershell
 Get-Content -Raw -LiteralPath 'D:\project\swim\sql\schema.sql' | mysql -ugavin -p456123
 ```
+
+Export or import database:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\database-transfer.ps1
+```
+
+For double-click usage on Windows, use `scripts\run-database-transfer.cmd`; it invokes the PowerShell script with `ExecutionPolicy Bypass`.
+
+The script exports to `sql\exports\` and supports importing into another computer. During import, it prompts for MySQL credentials, checks whether the target database exists, and lets the user either drop/recreate it or enter a new database name.
 
 ## Git Practice
 
