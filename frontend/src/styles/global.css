@@ -346,6 +346,7 @@ textarea {
 
 .search-panel {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   align-items: center;
   padding: 14px;
@@ -353,6 +354,52 @@ textarea {
 
 .search-input {
   max-width: 280px;
+}
+
+.table-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.table-toolbar strong {
+  color: var(--color-text-primary);
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.table-toolbar span {
+  margin-left: 10px;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.pagination-row {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 16px;
+}
+
+.drawer-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.form-number {
+  width: 100%;
+}
+
+.el-drawer__header {
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--color-border-light);
+  padding-bottom: 14px;
+}
+
+.el-drawer__title {
+  color: var(--color-text-primary);
+  font-weight: 600;
 }
 
 .el-table {

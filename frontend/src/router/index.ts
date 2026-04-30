@@ -22,7 +22,7 @@ export const routes: RouteRecordRaw[] = [
       {
         path: 'ships',
         name: 'ships',
-        component: () => import('../views/ModulePlaceholder.vue'),
+        component: () => import('../views/ShipsView.vue'),
         meta: { title: '船舶管理', module: 'ships' },
       },
       {
