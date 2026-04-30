@@ -8,6 +8,8 @@
 - Planned frontend path: `D:\project\swim\frontend`
 - Database script: `D:\project\swim\sql\schema.sql`
 - Frontend design doc: `D:\project\swim\前端页面设计文档.md`
+- Frontend style guide: `D:\project\swim\DESIGN.md`
+- Product context: `D:\project\swim\PRODUCT.md`
 - Backend base URL: `http://localhost:8080/api`
 - JDK: Java 17
 - Maven path: `C:\Users\ganmaojun\scoop\apps\maven\current\bin\mvn.cmd`
@@ -78,3 +80,5 @@ Start frontend implementation from `前端页面设计文档.md` with Vue 3:
 2. Add Pinia, Vue Router, Axios, Element Plus.
 3. Build login, layout, route guard, and API client.
 4. Implement pages in this order: dashboard, dictionaries and shared selects, ships, crew, transport orders, settlements, users/roles.
+
+Use `DESIGN.md` as the visual source of truth. `前端页面设计文档.md` defines pages, routes, and interactions; `DESIGN.md` defines colors, typography, layout, component states, and frontend style constraints.

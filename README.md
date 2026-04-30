@@ -91,10 +91,12 @@ cd D:\project\swim\backend
 - [API接口文档.md](API接口文档.md)
 - [DTO设计文档.md](DTO设计文档.md)
 - [前端页面设计文档.md](前端页面设计文档.md)
+- [DESIGN.md](DESIGN.md)
+- [PRODUCT.md](PRODUCT.md)
 - [数据库表结构设计.md](数据库表结构设计.md)
 - [开发环境配置.md](开发环境配置.md)
 - [backend/README.md](backend/README.md)
 
 ## 下一阶段建议
 
-按 `前端页面设计文档.md` 开始前端实现：先搭建 Vue 3 项目骨架，再完成登录页、后台主布局、路由守卫、Axios 封装，然后按首页、字典下拉、船舶、船员、运输任务、结算、用户角色的顺序接入接口。
+按 `前端页面设计文档.md` 和 `DESIGN.md` 开始前端实现：先搭建 Vue 3 项目骨架，再完成登录页、后台主布局、路由守卫、Axios 封装，然后按首页、字典下拉、船舶、船员、运输任务、结算、用户角色的顺序接入接口。
