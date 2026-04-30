@@ -364,6 +364,7 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
   margin-bottom: 12px;
 }
 
@@ -377,6 +378,16 @@ textarea {
   margin-left: 10px;
   color: var(--color-text-secondary);
   font-size: 13px;
+}
+
+.toolbar-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.dictionary-tabs {
+  margin-bottom: 12px;
 }
 
 .pagination-row {

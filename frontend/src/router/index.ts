@@ -46,7 +46,7 @@ export const routes: RouteRecordRaw[] = [
       {
         path: 'dictionaries',
         name: 'dictionaries',
-        component: () => import('../views/ModulePlaceholder.vue'),
+        component: () => import('../views/DictionariesView.vue'),
         meta: { title: '基础字典', module: 'dictionaries' },
       },
       {
