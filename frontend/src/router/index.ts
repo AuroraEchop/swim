@@ -52,13 +52,13 @@ export const routes: RouteRecordRaw[] = [
       {
         path: 'users',
         name: 'users',
-        component: () => import('../views/ModulePlaceholder.vue'),
+        component: () => import('../views/UsersView.vue'),
         meta: { title: '用户管理', module: 'users' },
       },
       {
         path: 'roles',
         name: 'roles',
-        component: () => import('../views/ModulePlaceholder.vue'),
+        component: () => import('../views/RolesView.vue'),
         meta: { title: '角色管理', module: 'roles' },
       },
     ],

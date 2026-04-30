@@ -137,6 +137,10 @@ textarea {
   line-height: 20px;
 }
 
+.form-note {
+  margin: -6px 0 18px 96px;
+}
+
 .app-shell {
   display: grid;
   min-height: 100vh;

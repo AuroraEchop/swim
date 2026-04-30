@@ -51,6 +51,11 @@ export const settlementStatusOptions = [
   { label: '已结算', value: 'SETTLED' },
 ] as const
 
+export const userStatusOptions = [
+  { label: '启用', value: 'ENABLED' },
+  { label: '停用', value: 'DISABLED' },
+] as const
+
 export function getStatusMeta(status?: string): StatusMeta {
   if (!status) {
     return { label: '-', type: 'info' }
