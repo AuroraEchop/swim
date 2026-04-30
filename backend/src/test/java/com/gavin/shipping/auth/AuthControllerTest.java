@@ -14,7 +14,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -58,6 +61,52 @@ class AuthControllerTest {
                 .andExpect(jsonPath("$.message").value("用户名或密码错误"));
     }
 
+    @Test
+    void shouldReturnCurrentUserByDemoToken() throws Exception {
+        when(userMapper.findByUsername("admin"))
+                .thenReturn(Optional.of(new UserAccount(1L, "admin", "123456", "系统管理员", "ADMIN", UserStatus.ENABLED)));
+
+        mockMvc.perform(get("/auth/me")
+                        .header("Authorization", "Bearer demo-token-admin-1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.username").value("admin"))
+                .andExpect(jsonPath("$.data.roleCode").value("ADMIN"))
+                .andExpect(jsonPath("$.data.permissions[0]").value("user:read"));
+    }
+
+    @Test
+    void shouldRejectCurrentUserWithoutToken() throws Exception {
+        mockMvc.perform(get("/auth/me"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(401))
+                .andExpect(jsonPath("$.message").value("未登录或登录已过期"));
+    }
+
+    @Test
+    void shouldUpdatePasswordWithPlainTextValue() throws Exception {
+        when(userMapper.findByUsername("admin"))
+                .thenReturn(Optional.of(new UserAccount(1L, "admin", "123456", "系统管理员", "ADMIN", UserStatus.ENABLED)));
+
+        mockMvc.perform(put("/auth/password")
+                        .header("Authorization", "Bearer demo-token-admin-1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new PasswordPayload("123456", "654321"))))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("密码修改成功"));
+
+        verify(userMapper).updatePassword(1L, "654321");
+    }
+
+    @Test
+    void shouldLogout() throws Exception {
+        mockMvc.perform(post("/auth/logout"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("退出成功"));
+    }
+
     private record LoginPayload(String username, String password) {
+    }
+
+    private record PasswordPayload(String oldPassword, String newPassword) {
     }
 }

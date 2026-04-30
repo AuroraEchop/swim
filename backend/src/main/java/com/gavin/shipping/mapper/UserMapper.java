@@ -2,7 +2,9 @@ package com.gavin.shipping.mapper;
 
 import com.gavin.shipping.domain.UserAccount;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.Optional;
 
@@ -23,4 +25,7 @@ public interface UserMapper {
             LIMIT 1
             """)
     Optional<UserAccount> findByUsername(String username);
+
+    @Update("UPDATE sys_user SET password = #{newPassword} WHERE id = #{id}")
+    int updatePassword(@Param("id") Long id, @Param("newPassword") String newPassword);
 }
