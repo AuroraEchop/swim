@@ -98,11 +98,11 @@ The script imports `sql\shipping_management_full.sql`. It prompts for MySQL cred
 
 The user asked to commit after each stage. Keep commits small and stage-specific.
 
-Completed backend stages include core APIs, dashboard, dictionary, users/roles, and auth helper APIs. Frontend waste branches were removed; continue from `front-redesign` based on `11a5888 docs: tidy project handoff documentation`.
+Completed backend stages include core APIs, dashboard, dictionary, users/roles, and auth helper APIs. The active branch is `front-redesign`; frontend implementation, integration cleanup, database import tooling, and the full database dump have been committed on this branch.
 
-## Next Recommended Work
+## Current Recommended Work
 
-Main backend and frontend pages are implemented and smoke-tested through real APIs. Next work should focus on polish rather than new module scaffolding:
+Main backend and frontend pages are implemented and smoke-tested through real APIs. Current work should focus on running the app for manual presentation walkthrough and final polish rather than new module scaffolding:
 
 1. Manual browser walkthrough for presentation flow.
 2. Responsive and empty-state polish where needed.

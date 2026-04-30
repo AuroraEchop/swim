@@ -149,6 +149,7 @@ pnpm build
 - [数据库表结构设计.md](数据库表结构设计.md)
 - [开发环境配置.md](开发环境配置.md)
 - [backend/README.md](backend/README.md)
+- [frontend/README.md](frontend/README.md)
 
 ## 当前联调状态
 
