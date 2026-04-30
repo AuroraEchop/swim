@@ -74,8 +74,6 @@ async function handleLogin() {
         </el-form-item>
         <el-button class="login-submit" type="primary" :loading="loading" @click="handleLogin">登录系统</el-button>
       </el-form>
-
-      <p class="course-note">课程设计采用普通文本密码校验，前端按后端接口直接提交账号密码。</p>
     </section>
   </main>
 </template>

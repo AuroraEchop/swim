@@ -6,6 +6,7 @@ import RoleSelect from '../components/RoleSelect.vue'
 import StatusTag from '../components/StatusTag.vue'
 import { createUser, deleteUser, getUser, getUsers, updateUser, type User, type UserStatus } from '../api/users'
 import { userStatusOptions } from '../constants/status'
+import { useAuthStore } from '../stores/auth'
 
 type DrawerMode = 'create' | 'edit' | 'view'
 
@@ -29,6 +30,8 @@ const drawerMode = ref<DrawerMode>('create')
 const formRef = ref<FormInstance>()
 const users = ref<User[]>([])
 const total = ref(0)
+const authStore = useAuthStore()
+const canManage = computed(() => authStore.canManage)
 
 const query = reactive({
   username: '',
@@ -218,7 +221,7 @@ onMounted(loadUsers)
         <h2>用户管理</h2>
         <p>维护系统登录用户、角色归属和账号启停状态。</p>
       </div>
-      <el-button type="primary" :icon="Plus" @click="openCreate">新增用户</el-button>
+      <el-button v-if="canManage" type="primary" :icon="Plus" @click="openCreate">新增用户</el-button>
     </div>
 
     <div class="search-panel">
@@ -262,8 +265,8 @@ onMounted(loadUsers)
         <el-table-column label="操作" fixed="right" width="180">
           <template #default="{ row }">
             <el-button link type="primary" :icon="View" @click="openDetail(row, 'view')">查看</el-button>
-            <el-button link type="primary" :icon="Edit" @click="openDetail(row, 'edit')">编辑</el-button>
-            <el-button link type="danger" :icon="Delete" :disabled="row.username === 'admin'" @click="handleDelete(row)">
+            <el-button v-if="canManage" link type="primary" :icon="Edit" @click="openDetail(row, 'edit')">编辑</el-button>
+            <el-button v-if="canManage" link type="danger" :icon="Delete" :disabled="row.username === 'admin'" @click="handleDelete(row)">
               删除
             </el-button>
           </template>
@@ -292,9 +295,6 @@ onMounted(loadUsers)
         <el-form-item v-if="drawerMode === 'create'" label="密码" prop="password">
           <el-input v-model="form.password" placeholder="请输入密码" show-password />
         </el-form-item>
-        <p v-if="drawerMode === 'create'" class="course-note form-note">
-          课程设计简化：密码按明文提交并保存，这是有意取舍。
-        </p>
         <el-form-item label="真实姓名" prop="realName">
           <el-input v-model="form.realName" placeholder="请输入真实姓名" />
         </el-form-item>

@@ -15,6 +15,7 @@ import {
 } from '../api/settlements'
 import type { SettlementStatus } from '../api/transportOrders'
 import { settlementStatusOptions } from '../constants/status'
+import { useAuthStore } from '../stores/auth'
 
 type DrawerMode = 'create' | 'edit' | 'view'
 
@@ -41,6 +42,8 @@ const drawerMode = ref<DrawerMode>('create')
 const formRef = ref<FormInstance>()
 const settlements = ref<Settlement[]>([])
 const total = ref(0)
+const authStore = useAuthStore()
+const canManage = computed(() => authStore.canManage)
 
 const query = reactive({
   keyword: '',
@@ -95,7 +98,7 @@ function formatNow() {
 }
 
 function canDelete(row: Settlement) {
-  return row.status === 'UNSETTLED'
+  return canManage.value && row.status === 'UNSETTLED'
 }
 
 function resetForm() {
@@ -275,7 +278,7 @@ onMounted(loadSettlements)
         <h2>财务结算</h2>
         <p>根据运输任务生成结算记录，维护应收金额、实收金额和结算状态。</p>
       </div>
-      <el-button type="primary" :icon="Plus" @click="openCreate">新增结算</el-button>
+      <el-button v-if="canManage" type="primary" :icon="Plus" @click="openCreate">新增结算</el-button>
     </div>
 
     <div class="search-panel">
@@ -332,9 +335,9 @@ onMounted(loadSettlements)
         <el-table-column label="操作" fixed="right" width="250">
           <template #default="{ row }">
             <el-button link type="primary" :icon="View" @click="openDetail(row, 'view')">查看</el-button>
-            <el-button link type="primary" :icon="Edit" @click="openDetail(row, 'edit')">编辑</el-button>
-            <el-button link type="primary" :icon="Money" @click="handlePayment(row)">收款</el-button>
-            <el-button link type="danger" :icon="Delete" :disabled="!canDelete(row)" @click="handleDelete(row)">
+            <el-button v-if="canManage" link type="primary" :icon="Edit" @click="openDetail(row, 'edit')">编辑</el-button>
+            <el-button v-if="canManage" link type="primary" :icon="Money" @click="handlePayment(row)">收款</el-button>
+            <el-button v-if="canManage" link type="danger" :icon="Delete" :disabled="!canDelete(row)" @click="handleDelete(row)">
               删除
             </el-button>
           </template>

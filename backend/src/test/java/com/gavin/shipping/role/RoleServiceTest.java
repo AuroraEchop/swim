@@ -129,7 +129,7 @@ class RoleServiceTest {
         role.setId(2L);
         role.setRoleName("业务用户");
         role.setRoleCode("BUSINESS");
-        role.setDescription("负责业务数据维护");
+        role.setDescription("可查看业务数据");
         role.setBuiltIn(false);
         return role;
     }

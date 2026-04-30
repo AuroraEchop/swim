@@ -47,19 +47,19 @@ export const routes: RouteRecordRaw[] = [
         path: 'dictionaries',
         name: 'dictionaries',
         component: () => import('../views/DictionariesView.vue'),
-        meta: { title: '基础字典', module: 'dictionaries' },
+        meta: { title: '基础字典', module: 'dictionaries', adminOnly: true },
       },
       {
         path: 'users',
         name: 'users',
         component: () => import('../views/UsersView.vue'),
-        meta: { title: '用户管理', module: 'users' },
+        meta: { title: '用户管理', module: 'users', adminOnly: true },
       },
       {
         path: 'roles',
         name: 'roles',
         component: () => import('../views/RolesView.vue'),
-        meta: { title: '角色管理', module: 'roles' },
+        meta: { title: '角色管理', module: 'roles', adminOnly: true },
       },
     ],
   },
@@ -93,6 +93,10 @@ router.beforeEach(async (to) => {
     } catch {
       return '/login'
     }
+  }
+
+  if (to.meta.adminOnly && !authStore.canManage) {
+    return '/dashboard'
   }
 
   return true

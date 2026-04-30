@@ -3,7 +3,7 @@
 ## Project Facts
 
 - Workspace: `D:\project\swim`
-- Current project name: 简易航运公司管理系统
+- Current project name: 航运公司管理系统
 - Backend path: `D:\project\swim\backend`
 - Frontend path: `D:\project\swim\frontend`
 - Database script: `D:\project\swim\sql\schema.sql`
@@ -29,6 +29,11 @@ This is a course design project. Authentication is intentionally simplified:
 - Password changes update plaintext values directly.
 - `loginToken` uses a simple demo format: `demo-token-{username}-{id}`.
 - Do not treat this as a bug or spend effort adding production-grade security unless the user explicitly changes scope.
+
+## Role Permission Rule
+
+- `ADMIN`: full read/write access, including create, update, delete, status changes, payment registration, users, roles, and dictionaries.
+- `BUSINESS` and `VIEWER`: read-only access to business data. They can view ships, crew members, transport orders, settlements, and change their own password, but cannot mutate business data.
 
 ## Implemented Backend Modules
 

@@ -3,6 +3,7 @@ import { computed, onMounted, reactive, ref } from 'vue'
 import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from 'element-plus'
 import { Delete, Edit, Plus, Refresh, Search } from '@element-plus/icons-vue'
 import { createRole, deleteRole, getRoles, updateRole, type Role } from '../api/roles'
+import { useAuthStore } from '../stores/auth'
 
 type DrawerMode = 'create' | 'edit'
 
@@ -21,6 +22,8 @@ const drawerMode = ref<DrawerMode>('create')
 const formRef = ref<FormInstance>()
 const roles = ref<Role[]>([])
 const keyword = ref('')
+const authStore = useAuthStore()
+const canManage = computed(() => authStore.canManage)
 
 const form = reactive<RoleForm>({
   roleName: '',
@@ -137,9 +140,9 @@ onMounted(loadRoles)
     <div class="page-heading">
       <div>
         <h2>角色管理</h2>
-        <p>维护系统角色基础信息。权限字段作为课程设计预留，不做复杂权限树。</p>
+        <p>维护系统角色基础信息。</p>
       </div>
-      <el-button type="primary" :icon="Plus" @click="openCreate">新增角色</el-button>
+      <el-button v-if="canManage" type="primary" :icon="Plus" @click="openCreate">新增角色</el-button>
     </div>
 
     <div class="content-panel">
@@ -167,8 +170,8 @@ onMounted(loadRoles)
         </el-table-column>
         <el-table-column label="操作" fixed="right" width="150">
           <template #default="{ row }">
-            <el-button link type="primary" :icon="Edit" @click="openEdit(row)">编辑</el-button>
-            <el-button link type="danger" :icon="Delete" :disabled="row.builtIn" @click="handleDelete(row)">
+            <el-button v-if="canManage" link type="primary" :icon="Edit" @click="openEdit(row)">编辑</el-button>
+            <el-button v-if="canManage" link type="danger" :icon="Delete" :disabled="row.builtIn" @click="handleDelete(row)">
               删除
             </el-button>
           </template>
@@ -193,9 +196,6 @@ onMounted(loadRoles)
         <el-form-item label="角色说明" prop="description">
           <el-input v-model="form.description" :rows="4" maxlength="255" show-word-limit type="textarea" />
         </el-form-item>
-        <p class="course-note form-note">
-          课程设计简化：权限标识可作为说明预留，当前后端不持久化权限明细。
-        </p>
       </el-form>
 
       <template #footer>

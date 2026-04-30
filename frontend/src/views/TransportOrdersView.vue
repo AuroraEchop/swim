@@ -16,6 +16,7 @@ import {
   type TransportStatus,
 } from '../api/transportOrders'
 import { getStatusMeta, transportStatusOptions } from '../constants/status'
+import { useAuthStore } from '../stores/auth'
 
 type DrawerMode = 'create' | 'edit' | 'view'
 
@@ -46,6 +47,8 @@ const drawerMode = ref<DrawerMode>('create')
 const formRef = ref<FormInstance>()
 const orders = ref<TransportOrder[]>([])
 const total = ref(0)
+const authStore = useAuthStore()
+const canManage = computed(() => authStore.canManage)
 
 const query = reactive({
   keyword: '',
@@ -153,14 +156,17 @@ function formatNow() {
 }
 
 function canEdit(row: TransportOrder) {
-  return row.status !== 'ARRIVED' && row.status !== 'CANCELLED' && !row.settlementId
+  return canManage.value && row.status !== 'ARRIVED' && row.status !== 'CANCELLED' && !row.settlementId
 }
 
 function canDelete(row: TransportOrder) {
-  return (row.status === 'PENDING' || row.status === 'CANCELLED') && !row.settlementId
+  return canManage.value && (row.status === 'PENDING' || row.status === 'CANCELLED') && !row.settlementId
 }
 
 function nextStatusOptions(row: TransportOrder) {
+  if (!canManage.value) {
+    return []
+  }
   if (row.status === 'PENDING') {
     return transportStatusOptions.filter((item) => item.value === 'IN_TRANSIT' || item.value === 'CANCELLED')
   }
@@ -328,7 +334,7 @@ onMounted(loadOrders)
         <h2>运输任务</h2>
         <p>创建运输任务，跟踪船舶承运、航线、计划时间和运输状态。</p>
       </div>
-      <el-button type="primary" :icon="Plus" @click="openCreate">新增任务</el-button>
+      <el-button v-if="canManage" type="primary" :icon="Plus" @click="openCreate">新增任务</el-button>
     </div>
 
     <div class="search-panel">
@@ -392,10 +398,10 @@ onMounted(loadOrders)
         <el-table-column label="操作" fixed="right" width="230">
           <template #default="{ row }">
             <el-button link type="primary" :icon="View" @click="openDetail(row, 'view')">查看</el-button>
-            <el-button link type="primary" :icon="Edit" :disabled="!canEdit(row)" @click="openDetail(row, 'edit')">
+            <el-button v-if="canManage" link type="primary" :icon="Edit" :disabled="!canEdit(row)" @click="openDetail(row, 'edit')">
               编辑
             </el-button>
-            <el-dropdown trigger="click" :disabled="nextStatusOptions(row).length === 0" @command="createStatusHandler(row)">
+            <el-dropdown v-if="canManage" trigger="click" :disabled="nextStatusOptions(row).length === 0" @command="createStatusHandler(row)">
               <el-button link type="primary" :icon="MoreFilled" :disabled="nextStatusOptions(row).length === 0">
                 状态
               </el-button>
@@ -407,7 +413,7 @@ onMounted(loadOrders)
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
-            <el-button link type="danger" :icon="Delete" :disabled="!canDelete(row)" @click="handleDelete(row)">
+            <el-button v-if="canManage" link type="danger" :icon="Delete" :disabled="!canDelete(row)" @click="handleDelete(row)">
               删除
             </el-button>
           </template>

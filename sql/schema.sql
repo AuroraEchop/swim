@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS dictionary_item (
 INSERT IGNORE INTO sys_role (id, role_name, role_code, description, built_in)
 VALUES
   (1, '管理员', 'ADMIN', '拥有系统主要管理权限', 1),
-  (2, '业务用户', 'BUSINESS', '负责船舶、船员、运输和结算等业务数据维护', 1),
+  (2, '业务用户', 'BUSINESS', '可查看船舶、船员、运输和结算等业务数据', 1),
   (3, '查看用户', 'VIEWER', '仅允许查看业务数据', 1);
 
 INSERT IGNORE INTO sys_user (id, username, password, real_name, phone, email, role_id, status)
@@ -175,7 +175,7 @@ SET role_name = '管理员', description = '拥有系统主要管理权限', bui
 WHERE role_code = 'ADMIN';
 
 UPDATE sys_role
-SET role_name = '业务用户', description = '负责船舶、船员、运输和结算等业务数据维护', built_in = 1
+SET role_name = '业务用户', description = '可查看船舶、船员、运输和结算等业务数据', built_in = 1
 WHERE role_code = 'BUSINESS';
 
 UPDATE sys_role

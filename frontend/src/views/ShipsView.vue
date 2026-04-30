@@ -15,6 +15,7 @@ import {
   type ShipStatus,
 } from '../api/ships'
 import { getStatusMeta, shipStatusOptions } from '../constants/status'
+import { useAuthStore } from '../stores/auth'
 
 type DrawerMode = 'create' | 'edit' | 'view'
 
@@ -36,6 +37,8 @@ const drawerMode = ref<DrawerMode>('create')
 const formRef = ref<FormInstance>()
 const ships = ref<Ship[]>([])
 const total = ref(0)
+const authStore = useAuthStore()
+const canManage = computed(() => authStore.canManage)
 
 const query = reactive({
   keyword: '',
@@ -234,7 +237,7 @@ onMounted(loadShips)
         <h2>船舶管理</h2>
         <p>维护船舶档案、载重量、所属港口和当前业务状态。</p>
       </div>
-      <el-button type="primary" :icon="Plus" @click="openCreate">新增船舶</el-button>
+      <el-button v-if="canManage" type="primary" :icon="Plus" @click="openCreate">新增船舶</el-button>
     </div>
 
     <div class="search-panel">
@@ -280,8 +283,8 @@ onMounted(loadShips)
         <el-table-column label="操作" fixed="right" width="230">
           <template #default="{ row }">
             <el-button link type="primary" :icon="View" @click="openDetail(row, 'view')">查看</el-button>
-            <el-button link type="primary" :icon="Edit" @click="openDetail(row, 'edit')">编辑</el-button>
-            <el-dropdown trigger="click" @command="createStatusHandler(row)">
+            <el-button v-if="canManage" link type="primary" :icon="Edit" @click="openDetail(row, 'edit')">编辑</el-button>
+            <el-dropdown v-if="canManage" trigger="click" @command="createStatusHandler(row)">
               <el-button link type="primary" :icon="MoreFilled">状态</el-button>
               <template #dropdown>
                 <el-dropdown-menu>
@@ -296,7 +299,7 @@ onMounted(loadShips)
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
-            <el-button link type="danger" :icon="Delete" @click="handleDelete(row)">删除</el-button>
+            <el-button v-if="canManage" link type="danger" :icon="Delete" @click="handleDelete(row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

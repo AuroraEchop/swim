@@ -1,8 +1,8 @@
-# 简易航运公司管理系统 API 接口文档
+# 航运公司管理系统 API 接口文档
 
 ## 1. 文档说明
 
-本文档用于定义简易航运公司管理系统前后端分离开发所需的 RESTful API 接口。接口主要覆盖登录认证、用户管理、角色管理、船舶管理、船员管理、货物运输管理、财务结算管理、基础字典管理和首页统计等功能。
+本文档用于定义航运公司管理系统前后端分离开发所需的 RESTful API 接口。接口主要覆盖登录认证、用户管理、角色管理、船舶管理、船员管理、货物运输管理、财务结算管理、基础字典管理和首页统计等功能。
 
 ## 2. 接口基本约定
 
@@ -259,7 +259,7 @@ GET /auth/me
     "permissions": [
       "user:read",
       "ship:read",
-      "transport:update",
+      "transport:read",
       "dictionary:manage"
     ]
   }
@@ -499,7 +499,7 @@ GET /roles
       "id": 2,
       "roleName": "业务用户",
       "roleCode": "BUSINESS",
-      "description": "负责业务数据维护"
+      "description": "可查看业务数据"
     }
   ]
 }
@@ -549,13 +549,13 @@ PUT /roles/{id}
 
 ```json
 {
-  "roleName": "业务管理员",
-  "description": "负责业务数据维护",
+  "roleName": "业务用户",
+  "description": "可查看业务数据",
   "permissions": [
     "ship:read",
-    "ship:create",
-    "ship:update",
-    "crew:read"
+    "crew:read",
+    "transport:read",
+    "settlement:read"
   ]
 }
 ```

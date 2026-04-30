@@ -44,7 +44,7 @@ class RoleControllerTest {
                 2L,
                 "业务用户",
                 "BUSINESS",
-                "负责业务数据维护",
+                "可查看业务数据",
                 true
         )));
 

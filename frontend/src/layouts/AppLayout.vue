@@ -126,7 +126,7 @@ async function handleLogout() {
           </RouterLink>
         </div>
 
-        <div class="menu-group">
+        <div v-if="authStore.canManage" class="menu-group">
           <p v-if="!collapsed" class="menu-group-title">系统配置</p>
           <RouterLink v-for="item in systemMenus" :key="item.path" :to="item.path" class="menu-item">
             <el-icon><component :is="item.icon" /></el-icon>
@@ -181,7 +181,6 @@ async function handleLogout() {
         <el-form-item label="确认密码" prop="confirmPassword">
           <el-input v-model="passwordForm.confirmPassword" show-password />
         </el-form-item>
-        <p class="course-note form-note">课程设计简化：密码按普通文本提交并更新。</p>
       </el-form>
       <template #footer>
         <div class="drawer-footer">

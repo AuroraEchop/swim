@@ -191,7 +191,7 @@ CREATE TABLE `sys_role` (
 
 LOCK TABLES `sys_role` WRITE;
 /*!40000 ALTER TABLE `sys_role` DISABLE KEYS */;
-INSERT INTO `sys_role` VALUES (1,'管理员','ADMIN','拥有系统主要管理权限',1,'2026-04-29 15:26:50','2026-04-29 15:43:13'),(2,'业务用户','BUSINESS','负责船舶、船员、运输和结算等业务数据维护',1,'2026-04-29 15:26:50','2026-04-29 15:43:13'),(3,'查看用户','VIEWER','仅允许查看业务数据',1,'2026-04-29 15:26:50','2026-04-29 15:43:13');
+INSERT INTO `sys_role` VALUES (1,'管理员','ADMIN','拥有系统主要管理权限',1,'2026-04-29 15:26:50','2026-04-29 15:43:13'),(2,'业务用户','BUSINESS','可查看船舶、船员、运输和结算等业务数据',1,'2026-04-29 15:26:50','2026-04-30 17:35:40'),(3,'查看用户','VIEWER','仅允许查看业务数据',1,'2026-04-29 15:26:50','2026-04-29 15:43:13');
 /*!40000 ALTER TABLE `sys_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -285,4 +285,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-04-30 17:13:12
+-- Dump completed on 2026-04-30 17:36:37

@@ -1,4 +1,4 @@
-# 简易航运公司管理系统前端
+# 航运公司管理系统前端
 
 本目录是课程设计项目前端，技术栈为 Vue 3、Vite、TypeScript、Pinia、Vue Router、Axios、Element Plus。
 

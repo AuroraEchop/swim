@@ -9,6 +9,7 @@ import {
   updateDictionaryItem,
   type DictionaryItem,
 } from '../api/dictionaries'
+import { useAuthStore } from '../stores/auth'
 
 type DrawerMode = 'create' | 'edit'
 
@@ -43,6 +44,8 @@ const drawerVisible = ref(false)
 const drawerMode = ref<DrawerMode>('create')
 const formRef = ref<FormInstance>()
 const items = ref<DictionaryItem[]>([])
+const authStore = useAuthStore()
+const canManage = computed(() => authStore.canManage)
 
 const form = reactive<DictionaryForm>({
   dictType: 'SHIP_TYPE',
@@ -177,7 +180,7 @@ onMounted(loadItems)
         <h2>基础字典</h2>
         <p>维护船舶类型、货物类型、港口和船员岗位等基础下拉数据。</p>
       </div>
-      <el-button type="primary" :icon="Plus" @click="openCreate">新增字典项</el-button>
+      <el-button v-if="canManage" type="primary" :icon="Plus" @click="openCreate">新增字典项</el-button>
     </div>
 
     <div class="content-panel">
@@ -215,7 +218,7 @@ onMounted(loadItems)
         </el-table-column>
         <el-table-column prop="remark" label="备注" min-width="180" show-overflow-tooltip />
         <el-table-column prop="updatedAt" label="更新时间" min-width="170" />
-        <el-table-column label="操作" fixed="right" width="150">
+        <el-table-column v-if="canManage" label="操作" fixed="right" width="150">
           <template #default="{ row }">
             <el-button link type="primary" :icon="Edit" @click="openEdit(row)">编辑</el-button>
             <el-button link type="danger" :icon="Delete" @click="handleDelete(row)">删除</el-button>

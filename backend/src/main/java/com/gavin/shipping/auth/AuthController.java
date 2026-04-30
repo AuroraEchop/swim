@@ -91,11 +91,6 @@ public class AuthController {
         if ("VIEWER".equals(roleCode)) {
             return List.of("ship:read", "crew:read", "transport:read", "settlement:read");
         }
-        return List.of(
-                "ship:read", "ship:create", "ship:update",
-                "crew:read", "crew:create", "crew:update",
-                "transport:read", "transport:create", "transport:update",
-                "settlement:read", "settlement:create", "settlement:update"
-        );
+        return List.of("ship:read", "crew:read", "transport:read", "settlement:read");
     }
 }
