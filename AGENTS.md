@@ -5,12 +5,13 @@
 - Workspace: `D:\project\swim`
 - Current project name: 简易航运公司管理系统
 - Backend path: `D:\project\swim\backend`
-- Planned frontend path: `D:\project\swim\frontend`
+- Frontend path: `D:\project\swim\frontend`
 - Database script: `D:\project\swim\sql\schema.sql`
 - Frontend design doc: `D:\project\swim\前端页面设计文档.md`
 - Frontend style guide: `D:\project\swim\DESIGN.md`
 - Product context: `D:\project\swim\PRODUCT.md`
 - Backend base URL: `http://localhost:8080/api`
+- Frontend dev URL: `http://localhost:5173`
 - JDK: Java 17
 - Maven path: `C:\Users\ganmaojun\scoop\apps\maven\current\bin\mvn.cmd`
 - MySQL database: `shipping_management`
@@ -54,6 +55,20 @@ cd D:\project\swim\backend
 & 'C:\Users\ganmaojun\scoop\apps\maven\current\bin\mvn.cmd' -DskipTests package
 ```
 
+Build frontend:
+
+```powershell
+cd D:\project\swim\frontend
+pnpm build
+```
+
+Run frontend dev server:
+
+```powershell
+cd D:\project\swim\frontend
+pnpm dev
+```
+
 Start MySQL as the current user:
 
 ```powershell
@@ -74,11 +89,11 @@ Completed backend stages include core APIs, dashboard, dictionary, users/roles, 
 
 ## Next Recommended Work
 
-Start frontend implementation from `前端页面设计文档.md` with Vue 3:
+Continue frontend implementation from `前端页面设计文档.md` with Vue 3:
 
-1. Scaffold Vite + Vue 3.
-2. Add Pinia, Vue Router, Axios, Element Plus.
-3. Build login, layout, route guard, and API client.
-4. Implement pages in this order: dashboard, dictionaries and shared selects, ships, crew, transport orders, settlements, users/roles.
+1. Finish dictionaries and shared select data loading.
+2. Implement ships and crew pages with shared table/form patterns.
+3. Implement transport orders and settlements.
+4. Implement users and roles.
 
-Use `DESIGN.md` as the visual source of truth. `前端页面设计文档.md` defines pages, routes, and interactions; `DESIGN.md` defines colors, typography, layout, component states, and frontend style constraints.
+The current frontend scaffold already includes Vite + Vue 3 + TypeScript, Pinia, Vue Router, Axios, Element Plus, login, route guard, backend proxy, dashboard shell, and module placeholders. Use `DESIGN.md` as the visual source of truth. `前端页面设计文档.md` defines pages, routes, and interactions; `DESIGN.md` defines colors, typography, layout, component states, and frontend style constraints.
