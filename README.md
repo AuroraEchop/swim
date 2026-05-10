@@ -1,12 +1,13 @@
 # 航运公司管理系统
 
-这是一个航运业务课程设计项目，采用前后端分离架构。当前已完成 Spring Boot 后端接口、MySQL 表结构、接口文档、DTO 文档、本地开发环境配置、前端页面设计和 Vue 3 前端主要页面。
+这是一个航运业务课程设计项目，采用前后端分离架构。当前已完成 Spring Boot 后端接口、MySQL 表结构、接口文档、DTO 文档、本地开发环境配置、前端页面设计，以及 Vue 3 和 React 两套前端实现。
 
 ## 技术栈
 
 | 层级 | 技术 |
 | --- | --- |
-| 前端 | Vue 3，Vite，TypeScript，Pinia，Vue Router，Axios，Element Plus |
+| 前端（Vue） | Vue 3，Vite，TypeScript，Pinia，Vue Router，Axios，Element Plus |
+| 前端（React） | React 19，Vite，TypeScript，Zustand，React Router，Axios，Ant Design 5 |
 | 后端 | Java 17，Spring Boot 3.3.5，MyBatis |
 | 数据库 | MySQL |
 | 构建工具 | Maven |
@@ -18,6 +19,7 @@
 D:\project\swim
 ├─ backend/                 Spring Boot 后端
 ├─ frontend/                Vue 3 前端
+├─ frontend-react/          React 19 前端
 ├─ sql/schema.sql           数据库建表与演示数据脚本
 ├─ sql/shipping_management_full.sql
 │                           当前数据库完整导出文件
@@ -35,7 +37,7 @@ D:\project\swim
 └─ 开发环境配置.md
 ```
 
-前端当前已具备登录页、后台主布局、路由守卫、API 客户端、修改密码弹窗、首页统计、船舶管理、船员管理、运输任务、财务结算、基础字典、用户管理和角色管理页面。页面风格以 `DESIGN.md` 为准：浅色后台管理界面，深海青作为主色，整体保持正式、清晰、适合学校课程设计演示。
+两套前端均已实现登录页、后台主布局、路由守卫、API 客户端、修改密码弹窗、首页统计、船舶管理、船员管理、运输任务、财务结算、基础字典、用户管理和角色管理页面。页面风格以 `DESIGN.md` 为准：浅色后台管理界面，深海青作为主色，整体保持正式、清晰、适合学校课程设计演示。
 
 ## 运行前准备
 
@@ -64,18 +66,30 @@ cd D:\project\swim\backend
 http://localhost:8080/api
 ```
 
-4. 启动前端。
+4. 启动前端（二选一）。
+
+Vue 前端：
 
 ```powershell
 cd D:\project\swim\frontend
 pnpm dev
 ```
 
+React 前端：
+
+```powershell
+cd D:\project\swim\frontend-react
+pnpm dev
+```
+
 前端默认地址：
 
-```text
-http://localhost:5173
-```
+| 前端 | 地址 |
+| --- | --- |
+| Vue | http://localhost:5173 |
+| React | http://localhost:5174 |
+
+两套前端可同时运行，共用同一个后端 API。
 
 ## 数据库导入
 
@@ -115,6 +129,9 @@ cd D:\project\swim\backend
 ```powershell
 cd D:\project\swim\frontend
 pnpm build
+
+cd D:\project\swim\frontend-react
+pnpm build
 ```
 
 ## 演示账号
@@ -152,6 +169,7 @@ pnpm build
 - [开发环境配置.md](开发环境配置.md)
 - [backend/README.md](backend/README.md)
 - [frontend/README.md](frontend/README.md)
+- [frontend-react/README.md](frontend-react/README.md)
 
 ## 当前联调状态
 
