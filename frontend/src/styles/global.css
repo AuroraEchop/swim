@@ -317,6 +317,37 @@ textarea {
   line-height: 30px;
 }
 
+.ai-calculating {
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  color: var(--color-primary);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 30px;
+}
+
+.ai-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-primary);
+  box-shadow: 0 0 0 0 oklch(52% 0.105 210 / 36%);
+  animation: ai-pulse 1.2s ease-out infinite;
+}
+
+@keyframes ai-pulse {
+  70% {
+    box-shadow: 0 0 0 9px oklch(52% 0.105 210 / 0%);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 oklch(52% 0.105 210 / 0%);
+  }
+}
+
 .amount-panel {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
@@ -326,6 +357,8 @@ textarea {
 }
 
 .content-panel {
+  min-width: 0;
+  overflow-x: auto;
   padding: 18px;
 }
 
@@ -346,22 +379,36 @@ textarea {
 .module-page {
   display: grid;
   gap: 16px;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .search-panel {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  align-items: center;
+  align-items: flex-start;
+  min-width: 0;
+  max-width: 100%;
   padding: 14px;
 }
 
 .search-input {
+  flex: 1 1 220px;
+  width: min(100%, 280px);
+  min-width: 0;
   max-width: 280px;
 }
 
 .date-range-input {
+  flex: 1 1 300px;
+  width: min(100%, 300px);
+  min-width: 0;
   max-width: 300px;
+}
+
+.search-panel .el-button {
+  flex: 0 0 auto;
 }
 
 .table-toolbar {
@@ -470,7 +517,9 @@ textarea {
     flex-direction: column;
   }
 
-  .search-input {
+  .search-input,
+  .date-range-input {
+    width: 100%;
     max-width: none;
   }
 }
